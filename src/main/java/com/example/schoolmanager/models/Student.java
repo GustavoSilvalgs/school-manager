@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -12,25 +13,27 @@ public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long rgm;
     private String name;
-    private int rmg;
+    private String email;
+    private LocalDate registrationDate;
 
     public Student() {
     }
 
-    public Student(Long id, String name, int rmg) {
-        this.id = id;
+    public Student(Long rgm, String name, String email, LocalDate registrationDate) {
+        this.rgm = rgm;
         this.name = name;
-        this.rmg = rmg;
+        this.email = email;
+        this.registrationDate = registrationDate;
     }
 
-    public Long getId() {
-        return id;
+    public Long getRgm() {
+        return rgm;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setRgm(Long rgm) {
+        this.rgm = rgm;
     }
 
     public String getName() {
@@ -41,12 +44,20 @@ public class Student {
         this.name = name;
     }
 
-    public int getRmg() {
-        return rmg;
+    public String getEmail() {
+        return email;
     }
 
-    public void setRmg(int rmg) {
-        this.rmg = rmg;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public LocalDate getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(LocalDate registrationDate) {
+        this.registrationDate = registrationDate;
     }
 
     @Override
@@ -54,11 +65,11 @@ public class Student {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Student student = (Student) o;
-        return Objects.equals(id, student.id);
+        return Objects.equals(rgm, student.rgm);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(rgm);
     }
 }
