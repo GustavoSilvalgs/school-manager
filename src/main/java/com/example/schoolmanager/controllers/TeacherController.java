@@ -5,6 +5,8 @@ import com.example.schoolmanager.services.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/teacher")
 public class TeacherController {
@@ -20,5 +22,10 @@ public class TeacherController {
     @GetMapping(value = "/{id}")
     public Teacher getTeacherById(@PathVariable(value = "id") Long id) {
         return service.getTeacherByRgm(id);
+    }
+
+    @GetMapping
+    public List<Teacher> getAllTeachers() {
+        return service.getAllTeachers();
     }
 }
