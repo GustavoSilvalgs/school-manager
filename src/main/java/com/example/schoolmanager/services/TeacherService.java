@@ -40,4 +40,8 @@ public class TeacherService {
 
         repository.save(entity);
     }
+
+    public void deleteTeacher(Long rgm) {
+        repository.deleteById(rgm);
+    }
 }
