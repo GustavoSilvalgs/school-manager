@@ -14,4 +14,8 @@ public class TeacherService {
     public Teacher create(Teacher teacher) {
         return repository.save(teacher);
     }
+
+    public Teacher getTeacherByRgm(Long rgm) {
+        return repository.findById(rgm).orElse(null);
+    }
 }
