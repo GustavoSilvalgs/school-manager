@@ -5,6 +5,8 @@ import com.example.schoolmanager.repositories.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TeacherService {
 
@@ -17,5 +19,9 @@ public class TeacherService {
 
     public Teacher getTeacherByRgm(Long rgm) {
         return repository.findById(rgm).orElse(null);
+    }
+
+    public List<Teacher> getAllTeachers() {
+        return repository.findAll();
     }
 }
