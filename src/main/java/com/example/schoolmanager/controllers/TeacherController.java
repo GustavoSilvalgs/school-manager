@@ -28,4 +28,9 @@ public class TeacherController {
     public List<Teacher> getAllTeachers() {
         return service.getAllTeachers();
     }
+
+    @DeleteMapping(value = "/{id}")
+    public void delete(@PathVariable(value = "id") Long id) {
+        service.deleteTeacher(id);
+    }
 }
