@@ -3,6 +3,7 @@ package com.example.schoolmanager.controllers;
 import com.example.schoolmanager.models.Teacher;
 import com.example.schoolmanager.services.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,7 +36,8 @@ public class TeacherController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         service.deleteTeacher(id);
+        return ResponseEntity.noContent().build();
     }
 }
