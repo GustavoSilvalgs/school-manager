@@ -26,19 +26,15 @@ public class TeacherService {
         return repository.findAll();
     }
 
-    public void updateTeacher(Teacher teacher) {
+    public Teacher updateTeacher(Teacher teacher) {
         var entity = repository.findById(teacher.getRgm())
                 .orElseThrow(() -> new EntityNotFoundException("User with RGM " + teacher.getRgm() + " not found"));
 
-        if (teacher.getName() != null) {
-            entity.setName(teacher.getName());
-        }
+        entity.setName(teacher.getName());
+        entity.setEmail(teacher.getEmail());
+        entity.setHiringDate(teacher.getHiringDate());
 
-        if (teacher.getEmail() != null) {
-            entity.setEmail(teacher.getEmail());
-        }
-
-        repository.save(entity);
+        return repository.save(teacher);
     }
 
     public void deleteTeacher(Long rgm) {
