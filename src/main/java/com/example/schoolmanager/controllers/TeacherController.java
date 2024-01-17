@@ -29,6 +29,11 @@ public class TeacherController {
         return service.getAllTeachers();
     }
 
+    @PutMapping
+    public Teacher update(@RequestBody Teacher teacher) {
+        return service.updateTeacher(teacher);
+    }
+
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable(value = "id") Long id) {
         service.deleteTeacher(id);
