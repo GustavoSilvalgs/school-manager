@@ -1,6 +1,7 @@
 package com.example.schoolmanager.exceptions.handler;
 
 import com.example.schoolmanager.exceptions.ExceptionResponse;
+import com.example.schoolmanager.exceptions.ResourceAlreadyExistsException;
 import com.example.schoolmanager.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,5 +37,16 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
                 ex.getMessage(),
                 request.getDescription(false));
         return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ResourceAlreadyExistsException.class)
+    public final ResponseEntity<ExceptionResponse> handleResourceAlreadyExistsException(
+            Exception ex, WebRequest request) {
+
+        ExceptionResponse exceptionResponse = new ExceptionResponse(
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 }
