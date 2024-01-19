@@ -1,6 +1,6 @@
 package com.example.schoolmanager.controllers;
 
-import com.example.schoolmanager.models.Teacher;
+import com.example.schoolmanager.data.dto.TeacherDto;
 import com.example.schoolmanager.services.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,22 +16,22 @@ public class TeacherController {
     private TeacherService service;
 
     @PostMapping
-    public Teacher create(@RequestBody Teacher teacher) {
+    public TeacherDto create(@RequestBody TeacherDto teacher) {
         return service.create(teacher);
     }
 
     @GetMapping(value = "/{id}")
-    public Teacher getTeacherById(@PathVariable(value = "id") Long id) {
+    public TeacherDto getTeacherById(@PathVariable(value = "id") Long id) {
         return service.getTeacherByRgm(id);
     }
 
     @GetMapping
-    public List<Teacher> getAllTeachers() {
+    public List<TeacherDto> getAllTeachers() {
         return service.getAllTeachers();
     }
 
     @PutMapping
-    public Teacher update(@RequestBody Teacher teacher) {
+    public TeacherDto update(@RequestBody TeacherDto teacher) {
         return service.updateTeacher(teacher);
     }
 
