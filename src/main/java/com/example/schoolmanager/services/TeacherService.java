@@ -1,7 +1,6 @@
 package com.example.schoolmanager.services;
 
 import com.example.schoolmanager.data.dto.TeacherDto;
-import com.example.schoolmanager.models.Teacher;
 import com.example.schoolmanager.repositories.TeacherRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
