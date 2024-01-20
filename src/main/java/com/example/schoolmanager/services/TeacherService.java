@@ -38,7 +38,7 @@ public class TeacherService {
         entity.setEmail(teacher.getEmail());
         entity.setHiringDate(teacher.getHiringDate());
 
-        return repository.save(teacher);
+        return DozerMapper.parseObject(repository.save(entity), TeacherDto.class);
     }
 
     public void deleteTeacher(Long rgm) {
