@@ -1,6 +1,7 @@
 package com.example.schoolmanager.services;
 
 import com.example.schoolmanager.data.dto.TeacherDto;
+import com.example.schoolmanager.mapper.DozerMapper;
 import com.example.schoolmanager.repositories.TeacherRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,12 @@ public class TeacherService {
     }
 
     public TeacherDto getTeacherByRgm(Long rgm) {
-        return repository.findById(rgm).orElse(null);
+        var entity = repository.findById(rgm).orElse(null);
+        return DozerMapper.parseObject(entity, TeacherDto.class);
     }
 
     public List<TeacherDto> getAllTeachers() {
-        return repository.findAll();
+        return DozerMapper.parseListObjects(repository.findAll(), TeacherDto.class);
     }
 
     public TeacherDto updateTeacher(TeacherDto teacher) {
