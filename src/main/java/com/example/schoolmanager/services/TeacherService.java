@@ -1,6 +1,8 @@
 package com.example.schoolmanager.services;
 
 import com.example.schoolmanager.data.dto.TeacherDto;
+import com.example.schoolmanager.exceptions.RequiredObjectIsNullException;
+import com.example.schoolmanager.exceptions.ResourceNotFoundException;
 import com.example.schoolmanager.mapper.DozerMapper;
 import com.example.schoolmanager.models.Teacher;
 import com.example.schoolmanager.repositories.TeacherRepository;
@@ -17,12 +19,16 @@ public class TeacherService {
     private TeacherRepository repository;
 
     public TeacherDto create(TeacherDto teacher) {
+
+        if (teacher == null) throw new RequiredObjectIsNullException();
+
         var entity = DozerMapper.parseObject(teacher, Teacher.class);
         return DozerMapper.parseObject(repository.save(entity), TeacherDto.class);
     }
 
     public TeacherDto getTeacherByRgm(Long rgm) {
-        var entity = repository.findById(rgm).orElse(null);
+        var entity = repository.findById(rgm)
+                .orElseThrow(() -> new ResourceNotFoundException("No records found this RGM!"));
         return DozerMapper.parseObject(entity, TeacherDto.class);
     }
 
@@ -32,7 +38,7 @@ public class TeacherService {
 
     public TeacherDto updateTeacher(TeacherDto teacher) {
         var entity = repository.findById(teacher.getRgm())
-                .orElseThrow(() -> new EntityNotFoundException("User with RGM " + teacher.getRgm() + " not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("No records found this RGM!"));
 
         entity.setName(teacher.getName());
         entity.setEmail(teacher.getEmail());
@@ -42,6 +48,7 @@ public class TeacherService {
     }
 
     public void deleteTeacher(Long rgm) {
-        repository.deleteById(rgm);
+        var entity = repository.findById(rgm)
+                .orElseThrow(() -> new ResourceNotFoundException("No records found this RGM!"));
     }
 }
