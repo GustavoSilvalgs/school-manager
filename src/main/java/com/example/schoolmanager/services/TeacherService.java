@@ -2,11 +2,11 @@ package com.example.schoolmanager.services;
 
 import com.example.schoolmanager.data.dto.TeacherDto;
 import com.example.schoolmanager.exceptions.RequiredObjectIsNullException;
+import com.example.schoolmanager.exceptions.ResourceAlreadyExistsException;
 import com.example.schoolmanager.exceptions.ResourceNotFoundException;
 import com.example.schoolmanager.mapper.DozerMapper;
 import com.example.schoolmanager.models.Teacher;
 import com.example.schoolmanager.repositories.TeacherRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +21,9 @@ public class TeacherService {
     public TeacherDto create(TeacherDto teacher) {
 
         if (teacher == null) throw new RequiredObjectIsNullException();
+
+        if (repository.existsByEmail(teacher.getEmail()))
+            throw new ResourceAlreadyExistsException("Email already exists");
 
         var entity = DozerMapper.parseObject(teacher, Teacher.class);
         return DozerMapper.parseObject(repository.save(entity), TeacherDto.class);
@@ -37,8 +40,14 @@ public class TeacherService {
     }
 
     public TeacherDto updateTeacher(TeacherDto teacher) {
+
         var entity = repository.findById(teacher.getRgm())
                 .orElseThrow(() -> new ResourceNotFoundException("No records found this RGM!"));
+
+        if (!entity.getEmail().equals(teacher.getEmail())) {
+            if (repository.existsByEmail(teacher.getEmail()))
+                throw new ResourceAlreadyExistsException("Email already exists");
+        }
 
         entity.setName(teacher.getName());
         entity.setEmail(teacher.getEmail());
@@ -50,5 +59,6 @@ public class TeacherService {
     public void deleteTeacher(Long rgm) {
         var entity = repository.findById(rgm)
                 .orElseThrow(() -> new ResourceNotFoundException("No records found this RGM!"));
+        repository.delete(entity);
     }
 }
