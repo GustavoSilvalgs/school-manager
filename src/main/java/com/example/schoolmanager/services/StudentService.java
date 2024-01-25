@@ -3,6 +3,7 @@ package com.example.schoolmanager.services;
 import com.example.schoolmanager.data.dto.StudentDto;
 import com.example.schoolmanager.exceptions.RequiredObjectIsNullException;
 import com.example.schoolmanager.exceptions.ResourceAlreadyExistsException;
+import com.example.schoolmanager.exceptions.ResourceNotFoundException;
 import com.example.schoolmanager.mapper.DozerMapper;
 import com.example.schoolmanager.models.Student;
 import com.example.schoolmanager.repositories.StudentRepository;
@@ -24,5 +25,11 @@ public class StudentService {
 
         var entity = DozerMapper.parseObject(student, Student.class);
         return DozerMapper.parseObject(repository.save(entity), StudentDto.class);
+    }
+
+    public StudentDto getStudentByRgm(Long rgm) {
+        var entity = repository.findById(rgm)
+                .orElseThrow(() -> new ResourceNotFoundException("No records found this RGM!"));
+        return DozerMapper.parseObject(entity, StudentDto.class);
     }
 }
