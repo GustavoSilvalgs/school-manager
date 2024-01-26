@@ -10,6 +10,8 @@ import com.example.schoolmanager.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class StudentService {
 
@@ -31,5 +33,9 @@ public class StudentService {
         var entity = repository.findById(rgm)
                 .orElseThrow(() -> new ResourceNotFoundException("No records found this RGM!"));
         return DozerMapper.parseObject(entity, StudentDto.class);
+    }
+
+    public List<StudentDto> getAllStudents() {
+        return DozerMapper.parseListObjects(repository.findAll(), StudentDto.class);
     }
 }
