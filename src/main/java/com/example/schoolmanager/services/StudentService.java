@@ -1,6 +1,7 @@
 package com.example.schoolmanager.services;
 
 import com.example.schoolmanager.data.dto.StudentDto;
+import com.example.schoolmanager.data.dto.TeacherDto;
 import com.example.schoolmanager.exceptions.RequiredObjectIsNullException;
 import com.example.schoolmanager.exceptions.ResourceAlreadyExistsException;
 import com.example.schoolmanager.exceptions.ResourceNotFoundException;
@@ -37,5 +38,22 @@ public class StudentService {
 
     public List<StudentDto> getAllStudents() {
         return DozerMapper.parseListObjects(repository.findAll(), StudentDto.class);
+    }
+
+    public StudentDto updateStudent(StudentDto student) {
+
+        var entity = repository.findById(student.getRgm())
+                .orElseThrow(() -> new ResourceNotFoundException("No records found this RGM!"));
+
+        if (!entity.getEmail().equals(student.getEmail())) {
+            if (repository.existsByEmail(student.getEmail()))
+                throw new ResourceAlreadyExistsException("Email already exists");
+        }
+
+        entity.setName(student.getName());
+        entity.setEmail(student.getEmail());
+        entity.setRegistrationDate(student.getRegistrationDate());
+
+        return DozerMapper.parseObject(repository.save(entity), StudentDto.class);
     }
 }
