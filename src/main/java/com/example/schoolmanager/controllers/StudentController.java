@@ -4,6 +4,7 @@ import com.example.schoolmanager.data.dto.StudentDto;
 import com.example.schoolmanager.data.dto.TeacherDto;
 import com.example.schoolmanager.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,5 +34,11 @@ public class StudentController {
     @PutMapping
     public StudentDto update(@RequestBody StudentDto student) {
         return service.updateStudent(student);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
+        service.deleteStudent(id);
+        return ResponseEntity.noContent().build();
     }
 }
