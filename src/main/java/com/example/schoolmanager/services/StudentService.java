@@ -56,4 +56,10 @@ public class StudentService {
 
         return DozerMapper.parseObject(repository.save(entity), StudentDto.class);
     }
+
+    public void deleteStudent(Long rgm) {
+        var entity = repository.findById(rgm)
+                .orElseThrow(() -> new ResourceNotFoundException("No records found this RGM!"));
+        repository.delete(entity);
+    }
 }
