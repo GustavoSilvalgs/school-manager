@@ -1,7 +1,6 @@
 package com.example.schoolmanager.controllers;
 
-import com.example.schoolmanager.data.dto.StudentDto;
-import com.example.schoolmanager.data.dto.TeacherDto;
+import com.example.schoolmanager.data.dto.v1.StudentDto;
 import com.example.schoolmanager.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

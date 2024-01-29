@@ -1,7 +1,6 @@
 package com.example.schoolmanager.services;
 
-import com.example.schoolmanager.data.dto.StudentDto;
-import com.example.schoolmanager.data.dto.TeacherDto;
+import com.example.schoolmanager.data.dto.v1.StudentDto;
 import com.example.schoolmanager.exceptions.RequiredObjectIsNullException;
 import com.example.schoolmanager.exceptions.ResourceAlreadyExistsException;
 import com.example.schoolmanager.exceptions.ResourceNotFoundException;
