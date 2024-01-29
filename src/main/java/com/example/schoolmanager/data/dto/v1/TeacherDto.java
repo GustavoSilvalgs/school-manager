@@ -1,4 +1,4 @@
-package com.example.schoolmanager.data.dto;
+package com.example.schoolmanager.data.dto.v1;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,8 +11,6 @@ import java.util.Objects;
 public class TeacherDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long rgm;
     private String name;
     private String email;

@@ -1,6 +1,7 @@
 package com.example.schoolmanager.services;
 
-import com.example.schoolmanager.data.dto.TeacherDto;
+import com.example.schoolmanager.data.dto.v1.TeacherDto;
+import com.example.schoolmanager.data.dto.v2.TeacherDtoV2;
 import com.example.schoolmanager.exceptions.RequiredObjectIsNullException;
 import com.example.schoolmanager.exceptions.ResourceAlreadyExistsException;
 import com.example.schoolmanager.exceptions.ResourceNotFoundException;
@@ -27,6 +28,17 @@ public class TeacherService {
 
         var entity = DozerMapper.parseObject(teacher, Teacher.class);
         return DozerMapper.parseObject(repository.save(entity), TeacherDto.class);
+    }
+
+    public TeacherDtoV2 createV2(TeacherDtoV2 teacher) {
+
+        if (teacher == null) throw new RequiredObjectIsNullException();
+
+        if (repository.existsByEmail(teacher.getEmail()))
+            throw new ResourceAlreadyExistsException("Email already exists");
+
+        var entity = DozerMapper.parseObject(teacher, Teacher.class);
+        return DozerMapper.parseObject(repository.save(entity), TeacherDtoV2.class);
     }
 
     public TeacherDto getTeacherByRgm(Long rgm) {
