@@ -1,6 +1,7 @@
 package com.example.schoolmanager.controllers;
 
-import com.example.schoolmanager.data.dto.TeacherDto;
+import com.example.schoolmanager.data.dto.v1.TeacherDto;
+import com.example.schoolmanager.data.dto.v2.TeacherDtoV2;
 import com.example.schoolmanager.services.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,11 @@ public class TeacherController {
     @PostMapping
     public TeacherDto create(@RequestBody TeacherDto teacher) {
         return service.create(teacher);
+    }
+
+    @PostMapping(value = "/v2")
+    public TeacherDtoV2 createV2(@RequestBody TeacherDtoV2 teacher) {
+        return service.createV2(teacher);
     }
 
     @GetMapping(value = "/{id}")
