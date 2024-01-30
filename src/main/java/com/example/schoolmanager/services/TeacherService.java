@@ -6,6 +6,7 @@ import com.example.schoolmanager.exceptions.RequiredObjectIsNullException;
 import com.example.schoolmanager.exceptions.ResourceAlreadyExistsException;
 import com.example.schoolmanager.exceptions.ResourceNotFoundException;
 import com.example.schoolmanager.mapper.DozerMapper;
+import com.example.schoolmanager.mapper.custom.TeacherMapper;
 import com.example.schoolmanager.models.Teacher;
 import com.example.schoolmanager.repositories.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class TeacherService {
 
     @Autowired
     private TeacherRepository repository;
+
+    @Autowired
+    private TeacherMapper mapper;
 
     public TeacherDto create(TeacherDto teacher) {
 
@@ -37,8 +41,8 @@ public class TeacherService {
         if (repository.existsByEmail(teacher.getEmail()))
             throw new ResourceAlreadyExistsException("Email already exists");
 
-        var entity = DozerMapper.parseObject(teacher, Teacher.class);
-        return DozerMapper.parseObject(repository.save(entity), TeacherDtoV2.class);
+        var entity = mapper.convertDtoToEntity(teacher);
+        return mapper.convertEntityToDto(repository.save(entity));
     }
 
     public TeacherDto getTeacherByRgm(Long rgm) {
