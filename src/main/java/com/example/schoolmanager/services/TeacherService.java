@@ -1,12 +1,10 @@
 package com.example.schoolmanager.services;
 
 import com.example.schoolmanager.data.dto.v1.TeacherDto;
-import com.example.schoolmanager.data.dto.v2.TeacherDtoV2;
 import com.example.schoolmanager.exceptions.RequiredObjectIsNullException;
 import com.example.schoolmanager.exceptions.ResourceAlreadyExistsException;
 import com.example.schoolmanager.exceptions.ResourceNotFoundException;
 import com.example.schoolmanager.mapper.DozerMapper;
-import com.example.schoolmanager.mapper.custom.TeacherMapper;
 import com.example.schoolmanager.models.Teacher;
 import com.example.schoolmanager.repositories.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +18,6 @@ public class TeacherService {
     @Autowired
     private TeacherRepository repository;
 
-    @Autowired
-    private TeacherMapper mapper;
-
     public TeacherDto create(TeacherDto teacher) {
 
         if (teacher == null) throw new RequiredObjectIsNullException();
@@ -32,17 +27,6 @@ public class TeacherService {
 
         var entity = DozerMapper.parseObject(teacher, Teacher.class);
         return DozerMapper.parseObject(repository.save(entity), TeacherDto.class);
-    }
-
-    public TeacherDtoV2 createV2(TeacherDtoV2 teacher) {
-
-        if (teacher == null) throw new RequiredObjectIsNullException();
-
-        if (repository.existsByEmail(teacher.getEmail()))
-            throw new ResourceAlreadyExistsException("Email already exists");
-
-        var entity = mapper.convertDtoToEntity(teacher);
-        return mapper.convertEntityToDto(repository.save(entity));
     }
 
     public TeacherDto getTeacherByRgm(Long rgm) {
