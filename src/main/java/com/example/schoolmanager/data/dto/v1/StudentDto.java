@@ -1,9 +1,5 @@
 package com.example.schoolmanager.data.dto.v1;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 
