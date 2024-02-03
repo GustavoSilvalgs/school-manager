@@ -1,5 +1,7 @@
 package com.example.schoolmanager.data.dto.v1;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -10,6 +12,8 @@ public class TeacherDto implements Serializable {
     private Long rgm;
     private String name;
     private String email;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate hiringDate;
 
     public TeacherDto() {
