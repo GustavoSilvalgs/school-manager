@@ -1,5 +1,6 @@
 package com.example.schoolmanager.services;
 
+import com.example.schoolmanager.controllers.TeacherController;
 import com.example.schoolmanager.data.dto.v1.TeacherDto;
 import com.example.schoolmanager.exceptions.RequiredObjectIsNullException;
 import com.example.schoolmanager.exceptions.ResourceAlreadyExistsException;
@@ -8,6 +9,8 @@ import com.example.schoolmanager.mapper.DozerMapper;
 import com.example.schoolmanager.models.Teacher;
 import com.example.schoolmanager.repositories.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,7 +35,9 @@ public class TeacherService {
     public TeacherDto getTeacherByRgm(Long rgm) {
         var entity = repository.findById(rgm)
                 .orElseThrow(() -> new ResourceNotFoundException("No records found this RGM!"));
-        return DozerMapper.parseObject(entity, TeacherDto.class);
+        TeacherDto dto = DozerMapper.parseObject(entity, TeacherDto.class);
+        dto.add(linkTo(methodOn(TeacherController.class).getTeacherById(rgm)).withSelfRel());
+        return dto;
     }
 
     public List<TeacherDto> getAllTeachers() {
@@ -41,7 +46,7 @@ public class TeacherService {
 
     public TeacherDto updateTeacher(TeacherDto teacher) {
 
-        var entity = repository.findById(teacher.getRgm())
+        var entity = repository.findById(teacher.getKey())
                 .orElseThrow(() -> new ResourceNotFoundException("No records found this RGM!"));
 
         if (!entity.getEmail().equals(teacher.getEmail())) {
