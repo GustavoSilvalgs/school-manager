@@ -29,19 +29,25 @@ public class TeacherService {
             throw new ResourceAlreadyExistsException("Email already exists");
 
         var entity = DozerMapper.parseObject(teacher, Teacher.class);
-        return DozerMapper.parseObject(repository.save(entity), TeacherDto.class);
+        var dto = DozerMapper.parseObject(repository.save(entity), TeacherDto.class);
+        dto.add(linkTo(methodOn(TeacherController.class).getTeacherById(dto.getKey())).withSelfRel());
+        return dto;
     }
 
     public TeacherDto getTeacherByRgm(Long rgm) {
         var entity = repository.findById(rgm)
                 .orElseThrow(() -> new ResourceNotFoundException("No records found this RGM!"));
-        TeacherDto dto = DozerMapper.parseObject(entity, TeacherDto.class);
+        var dto = DozerMapper.parseObject(entity, TeacherDto.class);
         dto.add(linkTo(methodOn(TeacherController.class).getTeacherById(rgm)).withSelfRel());
         return dto;
     }
 
     public List<TeacherDto> getAllTeachers() {
-        return DozerMapper.parseListObjects(repository.findAll(), TeacherDto.class);
+        var people = DozerMapper.parseListObjects(repository.findAll(), TeacherDto.class);
+        people
+            .stream()
+            .forEach(p -> p.add(linkTo(methodOn(TeacherController.class).getTeacherById(p.getKey())).withSelfRel()));
+        return people;
     }
 
     public TeacherDto updateTeacher(TeacherDto teacher) {
@@ -58,7 +64,9 @@ public class TeacherService {
         entity.setEmail(teacher.getEmail());
         entity.setHiringDate(teacher.getHiringDate());
 
-        return DozerMapper.parseObject(repository.save(entity), TeacherDto.class);
+        var dto = DozerMapper.parseObject(repository.save(entity), TeacherDto.class);
+        dto.add(linkTo(methodOn(TeacherController.class).getTeacherById(dto.getKey())).withSelfRel());
+        return dto;
     }
 
     public void deleteTeacher(Long rgm) {
