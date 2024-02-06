@@ -1,6 +1,8 @@
 package com.example.schoolmanager.data.dto.v1;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.github.dozermapper.core.Mapping;
 import org.springframework.hateoas.RepresentationModel;
 
@@ -8,9 +10,11 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+@JsonPropertyOrder({"rgm", "name", "email", "hiringDate"})
 public class TeacherDto extends RepresentationModel<TeacherDto> implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("rgm")
     @Mapping("rgm")
     private Long key;
     private String name;
