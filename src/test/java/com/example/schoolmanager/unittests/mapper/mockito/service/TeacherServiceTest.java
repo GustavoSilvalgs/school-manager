@@ -2,12 +2,12 @@ package com.example.schoolmanager.unittests.mapper.mockito.service;
 
 import com.example.schoolmanager.data.dto.v1.TeacherDto;
 import com.example.schoolmanager.exceptions.RequiredObjectIsNullException;
+import com.example.schoolmanager.exceptions.ResourceAlreadyExistsException;
 import com.example.schoolmanager.models.Teacher;
 import com.example.schoolmanager.repositories.TeacherRepository;
 import com.example.schoolmanager.services.TeacherService;
 import com.example.schoolmanager.unittests.mapper.mocks.MockTeacher;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -88,9 +89,19 @@ public class TeacherServiceTest {
             service.create(null);
         });
 
-        String expectedMessage = "It is not allowed to persist a null object!";
-        String actualMessage = exception.getMessage();
+        assertEquals("It is not allowed to persist a null object!", exception.getMessage());
+    }
 
-        assertTrue(actualMessage.contains(expectedMessage));
+    @Test
+    void testCreateWithDuplicateEmail() {
+        when(repository.existsByEmail(any())).thenReturn(true);
+
+        TeacherDto dto = input.mockDto(1);
+
+        Exception exception = assertThrows(ResourceAlreadyExistsException.class, () -> {
+           service.create(dto);
+        });
+
+        assertEquals("Email already exists", exception.getMessage());
     }
 }
