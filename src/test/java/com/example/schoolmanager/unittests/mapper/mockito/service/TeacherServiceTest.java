@@ -1,5 +1,6 @@
 package com.example.schoolmanager.unittests.mapper.mockito.service;
 
+import com.example.schoolmanager.data.dto.v1.TeacherDto;
 import com.example.schoolmanager.models.Teacher;
 import com.example.schoolmanager.repositories.TeacherRepository;
 import com.example.schoolmanager.services.TeacherService;
@@ -44,6 +45,31 @@ public class TeacherServiceTest {
         when(repository.findById(1L)).thenReturn(Optional.of(entity));
 
         var result = service.getTeacherByRgm(1L);
+        assertNotNull(result);
+        assertNotNull(result.getKey());
+        assertNotNull(result.getLinks());
+
+        assertTrue(result.toString().contains("links: [</api/teacher/v1/1>;rel=\"self\"]"));
+        assertEquals("Name Test1", result.getName());
+        assertEquals("Email Test1", result.getEmail());
+        assertEquals("2024-01-01", result.getHiringDate().toString());
+    }
+
+    @Test
+    void testCreate() {
+        Teacher entity = input.mockEntity(1);
+        entity.setRgm(1L);
+
+        Teacher persisted = entity;
+        persisted.setRgm(1L);
+
+        TeacherDto dto = input.mockDto(1);
+        dto.setKey(1L);
+
+        when(repository.save(entity)).thenReturn(persisted);
+
+        var result = service.create(dto);
+
         assertNotNull(result);
         assertNotNull(result.getKey());
         assertNotNull(result.getLinks());
