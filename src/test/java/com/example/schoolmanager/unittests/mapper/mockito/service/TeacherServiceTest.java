@@ -1,11 +1,13 @@
 package com.example.schoolmanager.unittests.mapper.mockito.service;
 
 import com.example.schoolmanager.data.dto.v1.TeacherDto;
+import com.example.schoolmanager.exceptions.RequiredObjectIsNullException;
 import com.example.schoolmanager.models.Teacher;
 import com.example.schoolmanager.repositories.TeacherRepository;
 import com.example.schoolmanager.services.TeacherService;
 import com.example.schoolmanager.unittests.mapper.mocks.MockTeacher;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -78,5 +80,17 @@ public class TeacherServiceTest {
         assertEquals("Name Test1", result.getName());
         assertEquals("Email Test1", result.getEmail());
         assertEquals("2024-01-01", result.getHiringDate().toString());
+    }
+
+    @Test
+    void testCreateWithNullTeacher() {
+        Exception exception = assertThrows(RequiredObjectIsNullException.class, () -> {
+            service.create(null);
+        });
+
+        String expectedMessage = "It is not allowed to persist a null object!";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
     }
 }
