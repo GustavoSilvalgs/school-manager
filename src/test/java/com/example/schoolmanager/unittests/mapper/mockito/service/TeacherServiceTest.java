@@ -127,4 +127,13 @@ public class TeacherServiceTest {
         assertEquals("Email Test1", result.getEmail());
         assertEquals("2024-01-01", result.getHiringDate().toString());
     }
+
+    @Test
+    void testUpdateWithNullTeacher() {
+        Exception exception = assertThrows(RequiredObjectIsNullException.class, () -> {
+            service.updateTeacher(null);
+        });
+
+        assertEquals("It is not allowed to persist a null object!", exception.getMessage());
+    }
 }

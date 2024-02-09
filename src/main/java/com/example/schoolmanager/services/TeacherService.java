@@ -52,6 +52,8 @@ public class TeacherService {
 
     public TeacherDto updateTeacher(TeacherDto teacher) {
 
+        if (teacher == null) throw new RequiredObjectIsNullException();
+
         var entity = repository.findById(teacher.getKey())
                 .orElseThrow(() -> new ResourceNotFoundException("No records found this RGM!"));
 
