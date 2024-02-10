@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -145,5 +146,50 @@ public class TeacherServiceTest {
         when(repository.findById(1L)).thenReturn(Optional.of(entity));
 
         service.deleteTeacher(1L);
+    }
+
+    @Test
+    void testFindAll() {
+        List<Teacher> list = input.mockEntityList();
+
+        when(repository.findAll()).thenReturn(list);
+
+        var teachers = service.getAllTeachers();
+
+        assertNotNull(teachers);
+        assertEquals(14, teachers.size());
+
+        var teacherOne = teachers.get(1);
+
+        assertNotNull(teacherOne);
+        assertNotNull(teacherOne.getKey());
+        assertNotNull(teacherOne.getLinks());
+
+        assertTrue(teacherOne.toString().contains("links: [</api/teacher/v1/1>;rel=\"self\"]"));
+        assertEquals("Name Test1", teacherOne.getName());
+        assertEquals("Email Test1", teacherOne.getEmail());
+        assertEquals("2024-01-01", teacherOne.getHiringDate().toString());
+
+        var teacherFour = teachers.get(4);
+
+        assertNotNull(teacherFour);
+        assertNotNull(teacherFour.getKey());
+        assertNotNull(teacherFour.getLinks());
+
+        assertTrue(teachers.toString().contains("links: [</api/teacher/v1/4>;rel=\"self\"]"));
+        assertEquals("Name Test4", teacherFour.getName());
+        assertEquals("Email Test4", teacherFour.getEmail());
+        assertEquals("2024-01-01", teacherFour.getHiringDate().toString());
+
+        var teacherSeven = teachers.get(7);
+
+        assertNotNull(teacherSeven);
+        assertNotNull(teacherSeven.getKey());
+        assertNotNull(teacherSeven.getLinks());
+
+        assertTrue(teacherSeven.toString().contains("links: [</api/teacher/v1/7>;rel=\"self\"]"));
+        assertEquals("Name Test7", teacherSeven.getName());
+        assertEquals("Email Test7", teacherSeven.getEmail());
+        assertEquals("2024-01-01", teacherSeven.getHiringDate().toString());
     }
 }
