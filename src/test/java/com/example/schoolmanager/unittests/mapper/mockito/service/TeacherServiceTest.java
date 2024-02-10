@@ -136,4 +136,14 @@ public class TeacherServiceTest {
 
         assertEquals("It is not allowed to persist a null object!", exception.getMessage());
     }
+
+    @Test
+    void testDelete() {
+        Teacher entity = input.mockEntity();
+        entity.setRgm(1L);
+
+        when(repository.findById(1L)).thenReturn(Optional.of(entity));
+
+        service.deleteTeacher(1L);
+    }
 }
