@@ -54,4 +54,38 @@ public class DozerConverterTest {
         assertEquals("Email Test12", outputTwelve.getEmail());
         assertEquals(LocalDate.of(2024, 1, 1), outputTwelve.getHiringDate());
     }
+
+    @Test
+    public void parseDTOToEntityTest() {
+        Teacher output = DozerMapper.parseObject(inputObject.mockDto(), Teacher.class);
+        assertEquals(Long.valueOf(0L), output.getRgm());
+        assertEquals("Name Test0", output.getName());
+        assertEquals("Email Test0", output.getEmail());
+        assertEquals(LocalDate.of(2024, 1, 1), output.getHiringDate());
+    }
+
+    @Test
+    public void parserDTOListToEntityListTest() {
+        List<Teacher> outputList = DozerMapper.parseListObjects(inputObject.mockDtoList(), Teacher.class);
+        Teacher outputZero = outputList.get(0);
+
+        assertEquals(Long.valueOf(0L), outputZero.getRgm());
+        assertEquals("Name Test0", outputZero.getName());
+        assertEquals("Email Test0", outputZero.getEmail());
+        assertEquals(LocalDate.of(2024, 1, 1), outputZero.getHiringDate());
+
+        Teacher outputSeven = outputList.get(7);
+
+        assertEquals(Long.valueOf(7L), outputSeven.getRgm());
+        assertEquals("Name Test7", outputSeven.getName());
+        assertEquals("Email Test7", outputSeven.getEmail());
+        assertEquals(LocalDate.of(2024, 1, 1), outputSeven.getHiringDate());
+
+        Teacher outputTwelve = outputList.get(12);
+
+        assertEquals(Long.valueOf(12L), outputTwelve.getRgm());
+        assertEquals("Name Test12", outputTwelve.getName());
+        assertEquals("Email Test12", outputTwelve.getEmail());
+        assertEquals(LocalDate.of(2024, 1, 1), outputTwelve.getHiringDate());
+    }
 }
