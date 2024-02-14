@@ -27,6 +27,18 @@ public class TeacherController {
     @PostMapping(
             consumes = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML },
             produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML })
+    @Operation(summary = "Adds a new Teacher",
+            description = "Adds a new Teacher by passing in a JSON, XML or YML representation of the person!",
+            tags = {"Teacher"},
+            responses = {
+                    @ApiResponse(description = "Success", responseCode = "200",
+                            content = @Content(schema = @Schema(implementation = TeacherDto.class))
+                    ),
+                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+                    @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
+            }
+    )
     public TeacherDto create(@RequestBody TeacherDto teacher) {
         return service.create(teacher);
     }
