@@ -44,6 +44,16 @@ spring:
     * Endpoint: **'DELETE /teacher/{id}'**
     * Removes a teacher with the provided ID
 
+## Additional Unit Test
+
+We have included unit tests for the `TeacherService` using Mockito and a Mocking Framework. These tests cover various scenarios, including finding a teacher by ID, creating a teacher, updating information, and more.
+
+To run these tests, execute the following command:
+
+```bash
+mvn clean test
+```
+
 ## Upcoming Features(Coming Soon)
 1. **Add More functionalities...**
 
