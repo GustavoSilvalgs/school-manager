@@ -1,14 +1,24 @@
 package com.example.schoolmanager.data.dto.v1;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.github.dozermapper.core.Mapping;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 
+@JsonPropertyOrder({"rgm", "name", "email", "registrationDate"})
 public class StudentDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("rgm")
+    @Mapping("rgm")
     private Long rgm;
     private String name;
     private String email;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate registrationDate;
 
     public StudentDto() {
